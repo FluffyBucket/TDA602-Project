@@ -13,7 +13,6 @@ export default class Comments extends Component {
 
     handleChange = e => {
         e.preventDefault()
-        console.log(e.target.value)
         this.setState({
             [e.target.name]: e.target.value,
         })
@@ -21,24 +20,35 @@ export default class Comments extends Component {
 
     handleSubmit = e => {
         e.preventDefault()
-        console.log(e)
         this.props.addComment(this.state.comment)
     }
 
     render() {
-        console.log(this.state,this.props)
         return(
           <div>
               <form onSubmit={this.handleSubmit}>
                   <input name='comment' type='text' onChange={this.handleChange}/>
               </form>
               {this.props.comments.length !== 0 ?
-                  this.props.comments.map((c) =>
-                    <p>{c}</p>
-                    ) :
+                  <div>
+                      <div style={{float: "left"}}>
+                          <p>This is dangerous</p>
+                          {this.props.comments.map((c,k) =>
+
+                            <li key={k} dangerouslySetInnerHTML={{__html: c}}/>
+                        ) }
+                      </div>
+                      <div style={{float: "right"}}>
+                          <p>This is "safe"</p>
+                          {this.props.comments.map((c,k) =>
+                              <li key={k}>{c}</li>
+                          )}
+                      </div>
+                  </div>
+                  :
                   <p>No comments yet :(</p>
               }
-              <p>Hello i am comments</p>
+
           </div>
         );
     }

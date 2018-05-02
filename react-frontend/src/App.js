@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
+import Comments from "./components/comment/comments";
+import Search from "./components/search";
 
 class App extends Component {
     constructor(props) {
@@ -9,39 +11,26 @@ class App extends Component {
             value: '',
             store: []
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleChange = e => {
+        this.setState({value: e.target.value});
     }
 
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
-        this.state.store.push(event.target.value)
+    addComment = comment => {
+        //alert('A name was submitted: ' + this.state.value);
+        this.state.store.push(comment)
+        this.setState({
+            store: this.state.store
+        })
     }
 
     render() {
+
         return (
             <div>
-            <form>
-                <label>
-                    Name:
-                    <input type="text" value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <input type="submit" value="Submit" onClick={this.handleSubmit}/>
-            </form>
-            <br/>
-                <div>
-                    {
-                        this.state.store.map(val =>
-                            <p>{val}</p>
-                        )
-                    }
-                </div>
+                <Search />
+                <Comments comments={this.state.store} addComment={this.addComment}/>
             </div>
         );
     }
