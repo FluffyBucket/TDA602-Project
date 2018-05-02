@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+  let store = [];
+  function myFunction() {
+      document.getElementById("text").innerHTML = "Paragraph changed.";
+  }
+
+  function onChange(e){
+    e.preventDefault();
+    console.log(e.value);
+
+
+  }
+
+  function onSubmit(e) {
+    console.log(e);
+    store.push(e.text.value)
+    var element = document.getElementById("comments");
+    for(i=0;i<store.length;i++){
+      var para = document.createElement("p");
+      var node = document.createTextNode(store[i]);
+      para.appendChild(node);
+      element.appendChild(para);
+    }
+  }
+  </script>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+
+<p>My comments!.</p>
+<div id="comments"></div>
+<form>
+<input id="text" name="text" type="text" onchange="onChange(this)"></input>
+<input id="button" name="button" type="button" value="CLick me" onclick="onSubmit(this.form)"></input>
+</form>
+
+</body>
+</html>
