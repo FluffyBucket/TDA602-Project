@@ -13,16 +13,42 @@ class App extends Component {
         };
     }
 
+    componentWillMount(){
+        this.refreshComments()
+    }
+
     handleChange = e => {
         this.setState({value: e.target.value});
     }
 
     addComment = comment => {
         //alert('A name was submitted: ' + this.state.value);
-        this.state.store.push(comment)
-        this.setState({
-            store: this.state.store
-        })
+        fetch('http://localhost:3003/addcomment/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: '',
+                body: comment,
+            })
+        });
+        this.refreshComments()
+    }
+
+    refreshComments = e => {
+        fetch('http://localhost:3003/getcomment/', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data)
+                this.setState({ store: data })
+            })
     }
 
     render() {
@@ -30,6 +56,7 @@ class App extends Component {
         return (
             <div>
                 <Search />
+                <div><button onClick={this.refreshComments}>Refresh</button></div>
                 <Comments comments={this.state.store} addComment={this.addComment}/>
             </div>
         );

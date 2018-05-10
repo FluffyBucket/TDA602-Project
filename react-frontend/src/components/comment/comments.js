@@ -24,6 +24,7 @@ export default class Comments extends Component {
     }
 
     render() {
+        console.log(this.props.comments)
         return(
           <div>
               <form onSubmit={this.handleSubmit}>
@@ -35,13 +36,13 @@ export default class Comments extends Component {
                           <p>This is dangerous</p>
                           {this.props.comments.map((c,k) =>
 
-                            <li key={k} dangerouslySetInnerHTML={{__html: c}}/>
+                            <li key={k} dangerouslySetInnerHTML={{__html: c.body}}/>
                         ) }
                       </div>
                       <div style={{float: "right"}}>
                           <p>This is "safe"</p>
                           {this.props.comments.map((c,k) =>
-                              <li key={k}>{c}</li>
+                              <li key={k}>{c.body}</li>
                           )}
                       </div>
                   </div>
